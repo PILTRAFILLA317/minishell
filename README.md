@@ -13,10 +13,12 @@ Simple Shell system based on BASH for 42cursus-minishell
 
 # Table of contents  
 1. [Introduction](#introduction)  
-2. [Some paragraph](#paragraph1)  
-    1. [Sub paragraph](#subparagraph1)  
+2. [How BASHado works](#how-bashado-works)  
+    1. [Lexer](#lexer)  
+    3. [Parser and Expander](#parser-expander)  
 3. [Another paragraph](#paragraph2)  
 
+# Introduction
 ## Features  
 
 - Functional history
@@ -76,15 +78,23 @@ make fclean_all
 
 # How BASHado works
 ## lexer
-The first thing to do is to separate the arguments so that they can be well executed.
+The first thing to do is to remove extra spaces  at the beginning, between arguments, and at the end.
 Let's take an example:
+
 ~~~bash  
-BASHado > ls "-la" |grep 'e' | wc -l >a && echo "  '$USER'"
+BASHado >       l"s" "-la"   |grep 'e' | wc -l   >a && echo       "  '$USER'"
 ~~~
+
+It will end up like this
+~~~bash  
+BASHado > l"s" "-la" |grep 'e' | wc -l >a && echo "  '$USER'"
+~~~
+
+Then it separates the arguments so that they can be well executed.
 The lexer receives this string and separates it by spaces, pipes, and redirects, regardless of those inside the single or double quotes.
 The example string would look like this:
 ~~~bash  
-- ls
+- l"s"
 - "-la"
 - |
 - grep
@@ -102,7 +112,7 @@ The example string would look like this:
 Now pipes, redirects and other characters that affect the executor are replaced by words that differentiate them from those inside quotes.
 After lexing the example string would look like this:
 ~~~bash  
-- ls
+- l"s"
 - "-la"
 - <PIPE>
 - grep
@@ -116,6 +126,67 @@ After lexing the example string would look like this:
 - echo
 - "  '$USER'"
 ~~~
+
+## Parser and Expander
+
+The first thing the parser does is to separate the quotation marks that are inside another argument.
+In this case only *l"s"* contains quotation marks. The double array would look like this:
+
+~~~bash  
+- l
+- "s"
+- "-la"
+- <PIPE>
+- grep
+- 'e'
+- <PIPE>
+- wc
+- -l
+- <GREATER>
+- a
+- <DOUBLEAMPERSAND>
+- echo
+- "  '$USER'"
+~~~
+
+Now, the quotes at the beginning and end of the arguments are removed and arguments that do NOT have single quotes are sent to the expander before being put back together. The expander checks if there is a "$" inside and if it is expandable by any environment variables.
+
+In this case only *"  '$USER'"* will be expanded.
+
+The expander ignores everything before the "$" and puts it in a string, then takes from the "$" to another "$", a space or a character that is NOT a special character (in the case of BASHado these special characters are from 33 to 64 of the ASCII table without considering the numbers).
+So *"  '$USER'"* will end up like:
+
+~~~bash
+-   '
+- $USER
+- '
+~~~
+
+Now $USER is replaced with the environment variable with the same name.
+
+~~~bash
+-   '
+- username
+- '
+~~~
+
+After Parser and Expander the final double array would look like this:
+~~~bash  
+- ls
+- -la
+- <PIPE>
+- grep
+- e
+- <PIPE>
+- wc
+- -l
+- <GREATER>
+- a
+- <DOUBLEAMPERSAND>
+- echo
+-   'username'
+~~~
+
 **Observations**
 
 Bash (and BASHado) manages the quotes so that when he finds one, whether it is single or double, he takes what is inside that one and the next one the same as he finds, whatever is inside.
@@ -129,8 +200,6 @@ Bash will take:
 - 'hello'
 - ""
 ~~~
-
-## Parser and Expander
 
 ## Screenshots  
 
