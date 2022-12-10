@@ -15,7 +15,7 @@ Simple Shell system based on BASH for 42cursus-minishell
 1. [Introduction](#introduction)  
 2. [How BASHado works](#how-bashado-works)  
     1. [Lexer](#lexer)  
-    3. [Parser and Expander](#parser-expander)  
+    3. [Parser and Expander](#parser-and-expander)  
 3. [Another paragraph](#paragraph2)  
 
 # Introduction
@@ -77,7 +77,7 @@ make fclean_all
 ~~~
 
 # How BASHado works
-## lexer
+## Lexer
 The first thing to do is to remove extra spaces  at the beginning, between arguments, and at the end.
 Let's take an example:
 
