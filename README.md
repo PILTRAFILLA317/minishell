@@ -162,7 +162,7 @@ So *"  '$USER'"* will end up like:
 - '
 ~~~
 
-Now $USER is replaced with the environment variable with the same name.
+Now $USER is replaced with the environment variable with the same name, in this example *USER=username*.
 
 ~~~bash
 -   '
@@ -189,7 +189,7 @@ After Parser and Expander the final double array would look like this:
 
 **Observations**
 
-Bash (and BASHado) manages the quotes so that when he finds one, whether it is single or double, he takes what is inside that one and the next one the same as he finds, whatever is inside.
+Bash (and BASHado) manages the quotes so that when he finds one, whether it is single or double, it takes what is inside that one and the next one the same as it finds, whatever is inside.
 For example:
 ~~~bash
 BASHado > ""'hello'""
@@ -201,8 +201,7 @@ Bash will take:
 - ""
 ~~~
 
-## Screenshots  
-
-![App Screenshot](https://lanecdr.org/wp-content/uploads/2019/08/placeholder.png)
+## Executor
+### Executor linked list
 
 ## Special Thanks
