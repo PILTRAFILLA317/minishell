@@ -11,6 +11,8 @@
 #   minishell
 Simple Shell system based on BASH for 42cursus-minishell
 
+![125/125](https://github.com/PILTRAFILLA317/minishell/blob/main/readme_srcs/125.png)
+
 # Table of contents  
 1. [Introduction](#introduction)  
 2. [How BASHado works](#how-bashado-works)  
