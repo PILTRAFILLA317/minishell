@@ -7,95 +7,168 @@
         \|_______|\|__|\|__|\_________\|__|\|__|\|__|\|__|\|_______|\|_______|
                            \|_________|                                       
 
- 
-#   minishell
-Simple Shell system based on BASH for 42cursus-minishell
+# minishell
+
+> 🐚 **PROYECTO EDUCATIVO** - Shell básico inspirado en BASH para 42 School
+
+Un intérprete de comandos minimalista implementado en C que replica las funcionalidades básicas de BASH. Este proyecto es parte del currículum de 42 School y está diseñado para enseñar los fundamentos de sistemas operativos, procesos y programación de sistemas.
+
+![C](https://img.shields.io/badge/C-00599C?style=flat&logo=c&logoColor=white)
+![Shell](https://img.shields.io/badge/Shell-Bash-green.svg)
+![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux-green.svg)
+![42 School](https://img.shields.io/badge/School-42-black.svg)
+![Status](https://img.shields.io/badge/Status-Educational%20Project-blue.svg)
 
 ![125/125](https://github.com/PILTRAFILLA317/minishell/blob/main/readme_srcs/125.png)
 
-# Table of contents  
-1. [Introduction](#introduction)  
-2. [How BASHado works](#how-bashado-works)  
-    1. [Lexer](#lexer)  
-    3. [Parser and Expander](#parser-and-expander)  
-3. [Another paragraph](#paragraph2)  
+## 📖 Tabla de Contenidos
+1. [Introducción](#introducción)
+2. [Funcionalidades Implementadas](#funcionalidades-implementadas)
+3. [Instalación y Uso](#instalación-y-uso)
+4. [Cómo Funciona BASHado](#cómo-funciona-bashado)
+5. [Arquitectura del Código](#arquitectura-del-código)
+6. [Limitaciones Conocidas](#limitaciones-conocidas)
+7. [Desarrollo y Extensión](#desarrollo-y-extensión)  
 
-# Introduction
-## Features  
+## 🚀 Funcionalidades Implementadas
 
-- Functional history
-- Finder and executor of any executable (in PATH)
-- **echo**, **cd**, **pwd**, **export**, **unset**, **env** and **exit** builtins
-- Functional expander with "$"
-- **<**, **>**, **<<** and **>>** redirections
-- Pipes ( **|** )
-- **ctrl + C**, **ctrl + D** and **ctrl + 4** signals
-- Working on Linux and Mac :D
+### 🔧 Comandos Built-in
+- **`echo`** - Imprime texto con soporte para flag `-n`
+- **`cd`** - Cambio de directorio con soporte para rutas relativas y absolutas
+- **`pwd`** - Muestra el directorio de trabajo actual
+- **`export`** - Gestión de variables de entorno
+- **`unset`** - Eliminación de variables de entorno
+- **`env`** - Visualización de variables de entorno
+- **`exit`** - Terminación del shell con códigos de salida
 
-## Run Locally  
+### 🔗 Funcionalidades del Shell
+- **Historial funcional** - Navegación con flechas usando readline
+- **Expansión de variables** - Soporte para `$VARIABLE` y `$?`
+- **Búsqueda en PATH** - Ejecución automática de ejecutables del sistema
+- **Gestión de comillas** - Procesamiento correcto de `'` y `"`
+- **Prompt personalizado** - Interfaz similar a BASH
 
-Clone the project  
+### 🔄 Redirecciones y Pipes
+- **`<`** - Redirección de entrada (input)
+- **`>`** - Redirección de salida (output)
+- **`<<`** - Heredoc (documento embebido)
+- **`>>`** - Redirección de salida en modo append
+- **`|`** - Pipes para comunicación entre procesos
 
-~~~bash  
-  git clone https://github.com/PILTRAFILLA317/minishell
-~~~
+### 🎛️ Gestión de Señales
+- **`Ctrl + C`** - SIGINT (interrupción)
+- **`Ctrl + D`** - EOF (fin de archivo)
+- **`Ctrl + \`** - SIGQUIT (quit signal)
 
-Go to the project directory  
+### 🎯 Características Bonus (en versión bonus)
+- **Wildcards** - Soporte para `*` (expansión de nombres de archivo)
+- **Operadores lógicos** - `&&` y `||` básicos
+- **Paréntesis** - Agrupación de comandos
+- **Funcionalidad extendida** del parser y lexer
 
-~~~bash
-  cd minishell
-~~~
+## ⚠️ Limitaciones del Proyecto
 
-Install readline
+Este es un shell **educativo y básico** con las siguientes limitaciones:
 
-- Mac
+### 🚫 Funcionalidades No Implementadas
+- **Sin alias** - No soporta definición de alias de comandos
+- **Sin funciones** - No permite definir funciones de shell
+- **Sin control de trabajos** - No hay `jobs`, `fg`, `bg`
+- **Sin completado automático** - No sugiere comandos o archivos
+- **Sin configuración avanzada** - No lee archivos `.bashrc` o similares
+- **Sin scripting avanzado** - Loops y condicionales limitados
+- **Sin aritmética** - No evalúa expresiones matemáticas
 
-~~~bash  
+## 🚀 Instalación y Uso
+
+### Prerrequisitos
+
+**macOS:**
+```bash
+# Instalar readline con Homebrew
 brew install readline
-~~~
+```
 
-- Linux
-
-~~~bash  
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt-get update
 sudo apt-get install libreadline6 libreadline6-dev
-~~~
+sudo apt-get install build-essential
+```
 
-Compile
+### Instalación
 
-~~~bash  
+1. **Clonar el repositorio:**
+```bash
+git clone https://github.com/PILTRAFILLA317/minishell.git
+cd minishell
+```
+
+2. **Compilar la versión básica:**
+```bash
+make
+```
+
+3. **Compilar la versión con bonus:**
+```bash
 make bonus
-~~~
+```
 
-Run 
+### Uso
 
-~~~bash  
+**Ejecutar minishell básico:**
+```bash
+./minishell
+```
+
+**Ejecutar versión con bonus:**
+```bash
 ./minishell_bonus
-~~~
+```
 
-Clean executable and temp files
-
-~~~bash  
+**Limpiar archivos compilados:**
+```bash
 make fclean_all
-~~~
+```
 
-# How BASHado works
-## Lexer
-The first thing to do is to remove extra spaces  at the beginning, between arguments, and at the end.
-Let's take an example:
+### Ejemplos de Uso
 
-~~~bash  
+```bash
+BASHado > echo "Hello World!"
+Hello World!
+
+BASHado > export MY_VAR="test"
+BASHado > echo $MY_VAR
+test
+
+BASHado > ls -la | grep ".c" | wc -l
+42
+
+BASHado > cat < input.txt > output.txt
+BASHado > echo "Hello" >> file.txt
+```
+
+# Cómo Funciona BASHado
+
+## 🔍 Lexer (Análisis Léxico)
+
+El primer paso es limpiar espacios extra al inicio, entre argumentos y al final.
+
+**Ejemplo de entrada:**
+```bash
 BASHado >       l"s" "-la"   |grep 'e' | wc -l   >a && echo       "  '$USER'"
-~~~
+```
 
-It will end up like this
-~~~bash  
+**Después de limpieza:**
+```bash
 BASHado > l"s" "-la" |grep 'e' | wc -l >a && echo "  '$USER'"
-~~~
+```
 
-Then it separates the arguments so that they can be well executed.
-The lexer receives this string and separates it by spaces, pipes, and redirects, regardless of those inside the single or double quotes.
-The example string would look like this:
-~~~bash  
+### Tokenización
+
+El lexer separa la cadena por espacios, pipes y redirecciones, respetando las comillas:
+
+```bash
 - l"s"
 - "-la"
 - |
@@ -109,11 +182,13 @@ The example string would look like this:
 - &&
 - echo
 - "  '$USER'"
-~~~
+```
 
-Now pipes, redirects and other characters that affect the executor are replaced by words that differentiate them from those inside quotes.
-After lexing the example string would look like this:
-~~~bash  
+### Marcado de Operadores
+
+Los operadores se reemplazan por tokens especiales para diferenciados del contenido entre comillas:
+
+```bash
 - l"s"
 - "-la"
 - <PIPE>
@@ -127,14 +202,15 @@ After lexing the example string would look like this:
 - <DOUBLEAMPERSAND>
 - echo
 - "  '$USER'"
-~~~
+```
 
-## Parser and Expander
+## 🔧 Parser y Expander
 
-The first thing the parser does is to separate the quotation marks that are inside another argument.
-In this case only *l"s"* contains quotation marks. The double array would look like this:
+### Separación de Comillas
 
-~~~bash  
+El parser identifica y separa argumentos con comillas internas:
+
+```bash
 - l
 - "s"
 - "-la"
@@ -149,31 +225,29 @@ In this case only *l"s"* contains quotation marks. The double array would look l
 - <DOUBLEAMPERSAND>
 - echo
 - "  '$USER'"
-~~~
+```
 
-Now, the quotes at the beginning and end of the arguments are removed and arguments that do NOT have single quotes are sent to the expander before being put back together. The expander checks if there is a "$" inside and if it is expandable by any environment variables.
+### Expansión de Variables
 
-In this case only *"  '$USER'"* will be expanded.
+Se procesan argumentos que **NO** tienen comillas simples. El expander busca `$` y los reemplaza con variables de entorno:
 
-The expander ignores everything before the "$" and puts it in a string, then takes from the "$" to another "$", a space or a character that is NOT a special character (in the case of BASHado these special characters are from 33 to 64 of the ASCII table without considering the numbers).
-So *"  '$USER'"* will end up like:
-
-~~~bash
+**Procesamiento de `"  '$USER'"`:**
+```bash
 -   '
 - $USER
 - '
-~~~
+```
 
-Now $USER is replaced with the environment variable with the same name, in this example *USER=username*.
-
-~~~bash
+**Después de expansión (si USER=username):**
+```bash
 -   '
 - username
 - '
-~~~
+```
 
-After Parser and Expander the final double array would look like this:
-~~~bash  
+### Resultado Final del Parser
+
+```bash
 - ls
 - -la
 - <PIPE>
@@ -187,23 +261,277 @@ After Parser and Expander the final double array would look like this:
 - <DOUBLEAMPERSAND>
 - echo
 -   'username'
-~~~
+```
 
-**Observations**
+## ⚙️ Executor (Ejecutor)
 
-Bash (and BASHado) manages the quotes so that when he finds one, whether it is single or double, it takes what is inside that one and the next one the same as it finds, whatever is inside.
-For example:
-~~~bash
+### Sistema de Nodos
+
+El executor utiliza una estructura de lista enlazada para gestionar comandos complejos con pipes y redirecciones:
+
+```c
+typedef struct s_node {
+    char **cmd;           // Comando y argumentos
+    int input_fd;         // File descriptor de entrada
+    int output_fd;        // File descriptor de salida
+    struct s_node *next;  // Siguiente comando en la pipeline
+} t_node;
+```
+
+### Proceso de Ejecución
+
+1. **Verificación de Built-ins** - Comprueba si es un comando interno
+2. **Búsqueda en PATH** - Localiza ejecutables del sistema
+3. **Gestión de Pipes** - Conecta entrada y salida entre procesos
+4. **Fork y Exec** - Crea procesos hijos para ejecución
+5. **Redirecciones** - Maneja entrada/salida hacia archivos
+
+### Gestión de Procesos
+
+```c
+if (builtin_checker(args))
+    builtins(args);         // Ejecutar built-in
+else
+    bin_executor(args);     // Ejecutar binario externo
+```
+
+## 🔄 Manejo de Comillas
+
+BASH (y BASHado) gestiona las comillas tomando todo el contenido entre la primera comilla encontrada y su pareja correspondiente:
+
+**Ejemplo:**
+```bash
 BASHado > ""'hello'""
-~~~
-Bash will take:
-~~~bash
-- ""
-- 'hello'
-- ""
-~~~
+```
 
-## Executor
-### Executor linked list
+**Procesamiento:**
+```bash
+- ""
+- 'hello'  
+- ""
+```
 
-## Special Thanks
+## 🏗️ Arquitectura del Código
+
+### Estructura de Directorios
+
+```
+minishell/
+├── mandatory/          # Versión básica del proyecto
+│   ├── srcs/          # Código fuente principal
+│   │   ├── builtins/  # Implementación de comandos built-in
+│   │   ├── core/      # Funcionalidades core del shell
+│   │   ├── executor/  # Motor de ejecución de comandos
+│   │   ├── expander/  # Expansión de variables
+│   │   ├── lexer/     # Análisis léxico
+│   │   ├── parser/    # Análisis sintáctico
+│   │   └── signals/   # Gestión de señales
+│   ├── includes/      # Headers del proyecto
+│   └── 42lib/         # Biblioteca auxiliar personalizada
+├── bonus/             # Versión con funcionalidades extra
+│   ├── srcs/          # Misma estructura + wildcards
+│   │   └── wildcards/ # Expansión de comodines (*)
+│   └── includes/      # Headers extendidos
+└── readme_srcs/       # Recursos para documentación
+```
+
+### Módulos Principales
+
+#### 🧠 Core (`core/`)
+**Archivo:** `ms_main.c`
+- Bucle principal de readline
+- Inicialización del entorno
+- Gestión de argumentos del programa
+
+```c
+typedef struct s_data {
+    char **env;        // Variables de entorno
+    char *shell_path;  // Ruta del shell
+    int exit_val;      // Código de salida
+    pid_t ms_pid;      // PID del shell
+} t_data;
+```
+
+#### 🔧 Built-ins (`builtins/`)
+**Comandos implementados:**
+- `echo.c` - Impresión de texto con flags
+- `cd.c` - Navegación de directorios
+- `export.c` - Gestión de variables de entorno  
+- `unset.c` - Eliminación de variables
+- `exit.c` - Terminación del shell
+
+```c
+int builtin_checker(char **args);
+void builtins(char **cont);
+char *find_in_env(char *s);
+```
+
+#### 📝 Lexer (`lexer/`)
+**Funcionalidades:**
+- Tokenización de comandos
+- Identificación de operadores
+- Limpieza de espacios
+- Marcado de strings especiales
+
+```c
+char **lex_core(char *buf);
+char *space_trimmer(char *str);
+```
+
+#### 🔍 Parser (`parser/`)
+**Procesamiento:**
+- Validación de sintaxis
+- Separación de comillas
+- Gestión de paréntesis (bonus)
+- Preparación para expansion
+
+```c
+char **parser_core(char **lex);
+int parser_q_error_chk(char *buf);
+int parser_paren_error_chk(char *buf);
+```
+
+#### 📈 Expander (`expander/`)
+**Expansión de variables:**
+- Variables de entorno (`$VAR`)
+- Código de salida (`$?`)
+- Gestión de comillas
+- Concatenación de strings
+
+```c
+char **expander_core(char **args);
+char *expand_env_var(char *str);
+```
+
+#### ⚙️ Executor (`executor/`)
+**Ejecución de comandos:**
+- Gestión de procesos (fork/exec)
+- Pipes y redirecciones
+- Búsqueda en PATH
+- Lista enlazada de comandos
+
+```c
+void executor_core(char **lex);
+void execute_cmds(char **args);
+char *bin_path_finder(char **args, int *exit);
+```
+
+#### 📡 Signals (`signals/`)
+**Gestión de señales:**
+- SIGINT (Ctrl+C)
+- SIGQUIT (Ctrl+\)
+- EOF (Ctrl+D)
+
+```c
+void signal_reciever(int sig);
+void signals_core(void);
+```
+
+#### 🌟 Wildcards (`wildcards/` - Solo Bonus)
+**Expansión de comodines:**
+- Expansión de `*`
+- Lectura de directorios
+- Matching de patrones
+
+```c
+char **wildcard_arg_manager(char **args);
+int arg_is_wildcard(char **args);
+```
+
+### Flujo de Ejecución
+
+```mermaid
+graph TD
+    A[Input del Usuario] --> B[Lexer]
+    B --> C[Parser]
+    C --> D[Expander]
+    D --> E[Executor]
+    E --> F{Built-in?}
+    F -->|Sí| G[Ejecutar Built-in]
+    F -->|No| H[Buscar en PATH]
+    H --> I[Fork + Exec]
+    G --> J[Mostrar Resultado]
+    I --> J
+    J --> A
+```
+
+## 🐛 Limitaciones Conocidas
+
+### Parsing y Sintaxis
+- **Sintaxis compleja limitada** - No soporta todas las construcciones de BASH
+- **Escapado básico** - Manejo limitado de caracteres especiales
+- **Validación de sintaxis** - Error checking básico
+
+### Gestión de Memoria
+- **Possible memory leaks** en casos de error extremos
+- **Sin garbage collection** avanzado
+- **Limpieza manual** de estructuras
+
+### Compatibilidad
+- **Dependiente de readline** - Requiere instalación externa
+- **Solo POSIX básico** - No todas las extensiones de BASH
+- **Limitado a Linux/macOS** - Sin soporte para Windows nativo
+
+### Errores Comunes
+
+```bash
+# Error de sintaxis
+BASHado > echo "unclosed quote
+Error: Unclosed quote
+
+# Comando no encontrado
+BASHado > nonexistent_command
+BASHado: nonexistent_command: command not found
+
+# Variable no definida
+BASHado > echo $UNDEFINED_VAR
+# (imprime línea vacía)
+```
+
+## 🎓 Propósito Educativo
+
+Este proyecto está diseñado para aprender:
+
+### 🧠 Conceptos de Sistema
+- **Procesos y fork()** - Creación de procesos hijo
+- **Pipes y redirecciones** - Comunicación entre procesos  
+- **Variables de entorno** - Gestión del entorno de ejecución
+- **Señales UNIX** - Manejo de interrupciones
+
+### 💻 Programación en C
+- **Parsing de strings** - Análisis léxico y sintáctico
+- **Gestión de memoria** - malloc, free y estructuras dinámicas
+- **Listas enlazadas** - Estructuras de datos fundamentales
+- **File descriptors** - E/S de bajo nivel
+
+### 🔧 Herramientas de Desarrollo
+- **Makefile avanzado** - Compilación con múltiples objetivos
+- **Debugging** - Valgrind y herramientas de análisis
+- **Norminette** - Estándares de código de 42 School
+
+## 🚀 Desarrollo y Extensión
+
+### Para Añadir Nuevos Built-ins
+
+1. **Crear archivo en `builtins/`:**
+```c
+void my_builtin(char **args) {
+    // Implementación
+}
+```
+
+2. **Añadir al checker en `builtins_core.c`:**
+```c
+else if (!ft_strncmp(cont[0], "mynew", 6))
+    my_builtin(cont);
+```
+
+3. **Actualizar header `builtins.h`:**
+```c
+void my_builtin(char **args);
+```
+
+---
+*Proyecto educativo desarrollado como parte del currículum de 42 School*  
+*Autores: PILTRAFILLA317 (umartin-) & Colaborador - Promoción 2023*  
+*"Un shell simple para entender los complejos"* 🐚
